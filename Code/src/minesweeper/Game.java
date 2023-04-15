@@ -84,7 +84,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
         {
             ImageIcon question = new ImageIcon(getClass().getResource("/resources/question.png"));      
 
-            int option = JOptionPane.showOptionDialog(null, "Do you want to continue your saved game?", 
+            int option = JOptionPane.showOptionDialog(null, "저장한 게임을 불러오시겠습니까?",
                             "Saved Game Found", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, question,null,null);
 
             switch(option) 
@@ -223,7 +223,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
         JDialog dialog = new JDialog(gui, Dialog.ModalityType.DOCUMENT_MODAL);
         
         //------MESSAGE-----------//
-        JLabel message = new JLabel("Congratulations, you won the game!", SwingConstants.CENTER);
+        JLabel message = new JLabel("축하합니다! 게임 클리어!", SwingConstants.CENTER);
                 
         //-----STATISTICS-----------//
         JPanel statistics = new JPanel();
@@ -233,28 +233,28 @@ public class Game implements MouseListener, ActionListener, WindowListener
         
         if (bTimes.isEmpty() || (bTimes.get(0).getTimeValue() > gui.getTimePassed()))
         {
-            statistics.add(new JLabel("    You have the fastest time for this difficulty level!    "));
+            statistics.add(new JLabel("    현재 레벨에서 신기록 달성!    "));
         }
         
         score.addTime(gui.getTimePassed(), new Date(System.currentTimeMillis()));
                 
-        JLabel time = new JLabel("  Time:  " + Integer.toString(gui.getTimePassed()) + " seconds            Date:  " + new Date(System.currentTimeMillis()));
+        JLabel time = new JLabel("  시간:  " + Integer.toString(gui.getTimePassed()) + " 초            날짜:  " + new Date(System.currentTimeMillis()));
         
         JLabel bestTime = new JLabel();
         
         
         if (bTimes.isEmpty())
         {
-            bestTime.setText("  Best Time:  ---                  Date:  ---");
+            bestTime.setText("  신기록:  ---                  날짜:  ---");
         }
         else
         {
-            bestTime.setText("  Best Time:  " + bTimes.get(0).getTimeValue() + " seconds            Date:  " + bTimes.get(0).getDateValue());
+            bestTime.setText("  신기록:  " + bTimes.get(0).getTimeValue() + " 초            날짜:  " + bTimes.get(0).getDateValue());
         }
         
-        JLabel gPlayed = new JLabel("  Games Played:  " + score.getGamesPlayed());
-        JLabel gWon = new JLabel("  Games Won:  " + score.getGamesWon());
-        JLabel gPercentage = new JLabel("  Win Percentage:  " + score.getWinPercentage() + "%");
+        JLabel gPlayed = new JLabel("  총 게임 횟수:  " + score.getGamesPlayed());
+        JLabel gWon = new JLabel("  이긴 게임 횟수:  " + score.getGamesWon());
+        JLabel gPercentage = new JLabel("  승률:  " + score.getWinPercentage() + "%");
         
         statistics.add(time);
         statistics.add(bestTime);
@@ -270,8 +270,8 @@ public class Game implements MouseListener, ActionListener, WindowListener
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(1,2,10,0));
         
-        JButton exit = new JButton("Exit");
-        JButton playAgain = new JButton("Play Again");
+        JButton exit = new JButton("나가기");
+        JButton playAgain = new JButton("재시작");
 
         
         exit.addActionListener((ActionEvent e) -> {
@@ -307,7 +307,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
             }
         );
 
-        dialog.setTitle("Game Won");
+        dialog.setTitle("승리");
         dialog.add(c);
         dialog.pack();
         dialog.setLocationRelativeTo(gui);
@@ -329,13 +329,13 @@ public class Game implements MouseListener, ActionListener, WindowListener
         JDialog dialog = new JDialog(gui, Dialog.ModalityType.DOCUMENT_MODAL);
         
         //------MESSAGE-----------//
-        JLabel message = new JLabel("Sorry, you lost this game. Better luck next time!", SwingConstants.CENTER);
+        JLabel message = new JLabel("당신은 죽었습니다!", SwingConstants.CENTER);
                 
         //-----STATISTICS-----------//
         JPanel statistics = new JPanel();
         statistics.setLayout(new GridLayout(5,1,0,10));
         
-        JLabel time = new JLabel("  Time:  " + Integer.toString(gui.getTimePassed()) + " seconds");
+        JLabel time = new JLabel("  시간:  " + Integer.toString(gui.getTimePassed()) + " 초");
         
         JLabel bestTime = new JLabel();
         
@@ -347,12 +347,12 @@ public class Game implements MouseListener, ActionListener, WindowListener
         }
         else
         {
-            bestTime.setText("  Best Time:  " + bTimes.get(0).getTimeValue() + " seconds            Date:  " + bTimes.get(0).getDateValue());
+            bestTime.setText("  신기록:  " + bTimes.get(0).getTimeValue() + " 초            날짜:  " + bTimes.get(0).getDateValue());
         }
         
-        JLabel gPlayed = new JLabel("  Games Played:  " + score.getGamesPlayed());
-        JLabel gWon = new JLabel("  Games Won:  " + score.getGamesWon());
-        JLabel gPercentage = new JLabel("  Win Percentage:  " + score.getWinPercentage() + "%");
+        JLabel gPlayed = new JLabel("  총 게임 횟수:  " + score.getGamesPlayed());
+        JLabel gWon = new JLabel("  이긴 게임 횟수:  " + score.getGamesWon());
+        JLabel gPercentage = new JLabel("  승률:  " + score.getWinPercentage() + "%");
         
         statistics.add(time);
         statistics.add(bestTime);
@@ -368,9 +368,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(1,3,2,0));
         
-        JButton exit = new JButton("Exit");
-        JButton restart = new JButton("Restart");
-        JButton playAgain = new JButton("Play Again");
+        JButton exit = new JButton("나가기");
+        JButton restart = new JButton("현재 게임 재시작");
+        JButton playAgain = new JButton("새로운 게임 시작");
 
         
         exit.addActionListener((ActionEvent e) -> {
@@ -411,7 +411,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
             }
         );
         
-        dialog.setTitle("Game Lost");
+        dialog.setTitle("패배");
         dialog.add(c);
         dialog.pack();
         dialog.setLocationRelativeTo(gui);
@@ -455,12 +455,12 @@ public class Game implements MouseListener, ActionListener, WindowListener
         
         statistics.setLayout(new GridLayout(6,1,0,10));        
         
-        JLabel gPlayed = new JLabel("  Games Played:  " + score.getGamesPlayed());
-        JLabel gWon = new JLabel("  Games Won:  " + score.getGamesWon());
-        JLabel gPercentage = new JLabel("  Win Percentage:  " + score.getWinPercentage() + "%");
-        JLabel lWin = new JLabel("  Longest Winning Streak:  " + score.getLongestWinningStreak());
-        JLabel lLose = new JLabel("  Longest Losing Streak:  " + score.getLongestLosingStreak());
-        JLabel currentStreak = new JLabel("  Current Streak:  " + score.getCurrentStreak());
+        JLabel gPlayed = new JLabel("  총 게임 횟수:  " + score.getGamesPlayed());
+        JLabel gWon = new JLabel("  이긴 횟수:  " + score.getGamesWon());
+        JLabel gPercentage = new JLabel("  승률:  " + score.getWinPercentage() + "%");
+        JLabel lWin = new JLabel("  최장 연승 횟수:  " + score.getLongestWinningStreak());
+        JLabel lLose = new JLabel("  최장 연패 횟수:  " + score.getLongestLosingStreak());
+        JLabel currentStreak = new JLabel("  현재 연승 횟수:  " + score.getCurrentStreak());
 
         
         statistics.add(gPlayed);
@@ -478,8 +478,8 @@ public class Game implements MouseListener, ActionListener, WindowListener
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(1,2,10,0));
         
-        JButton close = new JButton("Close");
-        JButton reset = new JButton("Reset");
+        JButton close = new JButton("종료");
+        JButton reset = new JButton("초기화");
 
         
         close.addActionListener((ActionEvent e) -> {
@@ -488,8 +488,8 @@ public class Game implements MouseListener, ActionListener, WindowListener
         reset.addActionListener((ActionEvent e) -> {
             ImageIcon question = new ImageIcon(getClass().getResource("/resources/question.png"));      
 
-            int option = JOptionPane.showOptionDialog(null, "Do you want to reset all your statistics to zero?", 
-                            "Reset Statistics", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, question,null,null);
+            int option = JOptionPane.showOptionDialog(null, "정보창을 초기화하시겠습니까?",
+                            "정보창 초기화", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, question,null,null);
 
             switch(option) 
             {
@@ -706,9 +706,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         {
             ImageIcon question = new ImageIcon(getClass().getResource("/resources/question.png"));      
 
-            Object[] options = {"Save","Don't Save","Cancel"};
+            Object[] options = {"저장","삭제","취소"};
 
-            int quit = JOptionPane.showOptionDialog(null, "What do you want to do with the game in progress?", 
+            int quit = JOptionPane.showOptionDialog(null, "현재 게임을 어떻게 하시겠습니까?",
                             "New Game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, question, options, options[2]);
 
             switch(quit) 
@@ -723,9 +723,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
                     JPanel panel = new JPanel();
                     panel.setLayout(new BorderLayout());
                     panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                    panel.add(new JLabel("Saving.... Please Wait", SwingConstants.CENTER));
+                    panel.add(new JLabel("저장중... 잠시만 기다려주십시오...", SwingConstants.CENTER));
                     dialog.add(panel);
-                    dialog.setTitle("Saving Game...");
+                    dialog.setTitle("저장중...");
                     dialog.pack();
                     dialog.setLocationRelativeTo(gui);                    
                     dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -776,9 +776,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
             {
                 ImageIcon question = new ImageIcon(getClass().getResource("/resources/question.png"));      
 
-                Object[] options = {"Quit and Start a New Game","Restart","Keep Playing"};
+                Object[] options = {"종료 후 새로운 게임","현재 게임 재시작","계속하기"};
                 
-                int startNew = JOptionPane.showOptionDialog(null, "What do you want to do with the game in progress?", 
+                int startNew = JOptionPane.showOptionDialog(null, "현재 게임을 어떻게 하시겠습니까?",
                                 "New Game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, question, options, options[2]);
 
                 switch(startNew) 

@@ -156,11 +156,11 @@ public class UI extends JFrame
         //------------------Menu--------------------------//
         menuBar = new JMenuBar();
         
-        gameMenu = new JMenu("Game");
+        gameMenu = new JMenu("게임");
          
-        newGame = new JMenuItem("   New Game");
-        statistics = new JMenuItem("   Statistics");
-        exit = new JMenuItem("   Exit");
+        newGame = new JMenuItem("   새로운 게임");
+        statistics = new JMenuItem("   정보창");
+        exit = new JMenuItem("   나가기");
 
         newGame.setName("New Game");
         statistics.setName("Statistics");
