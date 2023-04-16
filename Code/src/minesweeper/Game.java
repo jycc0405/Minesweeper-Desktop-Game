@@ -648,7 +648,52 @@ public class Game implements MouseListener, ActionListener, WindowListener
    
     //----------------------------------------------------------------------/
        
-    
+    public String checkNeighbours(int xCo, int yCo) {
+
+        int neighbours;
+        boolean isMine;
+        JButton buttons[][] = gui.getButtons();
+        String result = "";
+
+        for (int x = board.makeValidCoordinateX(xCo - 1); x <= board.makeValidCoordinateX(xCo + 1); x++) {
+            for (int y = board.makeValidCoordinateY(yCo - 1); y <= board.makeValidCoordinateY(yCo + 1); y++) {
+                if (x != xCo || y != yCo) {
+                    if (!board.getCells()[x][y].getContent().equals("F")) {
+                        buttons[x][y].setIcon(null);
+                        isMine = board.getCells()[x][y].getMine();
+                        neighbours = board.getCells()[x][y].getSurroundingMines();
+
+                        if (isMine) {
+                            //red mine
+                            buttons[x][y].setIcon(gui.getIconRedMine());
+                            buttons[x][y].setBackground(Color.red);
+                            board.getCells()[x][y].setContent("M");
+
+                            result = "lose";
+                        } else if (board.getCells()[x][y].getContent().equals("")) {
+                            // The player has clicked on a number.
+                            board.getCells()[x][y].setContent(Integer.toString(neighbours));
+                            buttons[x][y].setText(Integer.toString(neighbours));
+                            gui.setTextColor(buttons[x][y]);
+
+                            if (neighbours == 0) {
+                                // Show all surrounding cells.
+                                buttons[x][y].setBackground(Color.lightGray);
+                                buttons[x][y].setText("");
+                                findZeroes(x, y);
+                            } else {
+                                buttons[x][y].setBackground(Color.lightGray);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+
+
     /*
      * If a player clicks on a zero, all surrounding cells ("neighbours") must revealed.
      * This method is recursive: if a neighbour is also a zero, his neighbours must also be revealed.
@@ -846,7 +891,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
             // Left Click
             if (SwingUtilities.isLeftMouseButton(e)) 
             {
-                if (!board.getCells()[x][y].getContent().equals("F"))
+                if (!board.getCells()[x][y].getContent().equals("F")&&board.getCells()[x][y].getContent().equals(""))
                 {
                     button.setIcon(null);
 
@@ -879,7 +924,16 @@ public class Game implements MouseListener, ActionListener, WindowListener
                             button.setBackground(Color.lightGray);
                         }
                     }
+                }else if(!board.getCells()[x][y].getContent().equals(""))
+                {
+                    if (board.getSurroundingFlagNumber(x,y)>=Integer.parseInt(board.getCells()[x][y].getContent()))
+                    {
+                        String result=checkNeighbours(x,y);
+                        if(result.equals("lose"))
+                            gameLost();
+                    }
                 }
+
             }
             // Right Click
             else if (SwingUtilities.isRightMouseButton(e)) 

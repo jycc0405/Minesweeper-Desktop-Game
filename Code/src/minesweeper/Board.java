@@ -94,7 +94,30 @@ public class Board
     }
     //------------------------------------------------------------------//	
 
+    //------------------------------------------------------------------//
+    public int getSurroundingFlagNumber(int xCo,int yCo)
+    {
+        int flagNumber=0;
 
+        // Check the neighbours (the columns xCo - 1, xCo, xCo + 1)
+        for(int x=makeValidCoordinateX(xCo - 1); x<=makeValidCoordinateX(xCo + 1); x++)
+        {
+            // Check the neighbours (the rows yCo - 1, yCo, yCo + 1).
+            for(int y=makeValidCoordinateY(yCo - 1); y<=makeValidCoordinateY(yCo + 1); y++)
+            {
+                // Skip (xCo, yCo), since that's no neighbour.
+                if(x != xCo || y != yCo)
+                    if(cells[x][y].getContent().equals("F"))   // If the neighbour contains a mine, neighbours++.
+                        flagNumber++;
+            }
+        }
+
+        return flagNumber;
+    }
+
+
+
+    //------------------------------------------------------------------//
 
 
     //---------------------HELPER FUNCTIONS---------------------------//        
