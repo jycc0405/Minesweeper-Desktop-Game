@@ -139,7 +139,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
                 else if (cells[x][y].getContent().equals("F"))
                 {
                     buttons[x][y].setIcon(gui.getIconFlag());
-                    buttons[x][y].setBackground(Color.blue);	                    
+                    buttons[x][y].setBackground(Color.blue);
                 }
                 else if (cells[x][y].getContent().equals("0"))
                 {
@@ -528,10 +528,107 @@ public class Game implements MouseListener, ActionListener, WindowListener
         dialog.setLocationRelativeTo(gui);
         dialog.setVisible(true);                        
     }
+
+    //------------------------------------------------------------------------------//
+
+
+
+    public void showOption()
+    {
+        //----------------------------------------------------------------//
+
+        JDialog dialog = new JDialog(gui, Dialog.ModalityType.DOCUMENT_MODAL);
+
+
+        //-----option-----------//
+
+
+        JPanel option = new JPanel();
+
+        option.setLayout(new GridLayout(2,1,10,10));
+
+        JPanel diffOption = new JPanel();
+
+        TitledBorder b = BorderFactory.createTitledBorder("난이도 설정");
+        b.setTitleJustification(TitledBorder.LEFT);
+
+        diffOption.setBorder(b);
+
+
+        diffOption.setLayout(new GridLayout(1,3,10,10));
+
+        JRadioButton diff1= new JRadioButton("쉬움");
+        JRadioButton diff2= new JRadioButton("보통");
+        JRadioButton diff3= new JRadioButton("어려움");
+
+        diff1.setSelected(true);
+
+        ButtonGroup diffGroupRd = new ButtonGroup();
+
+        diffGroupRd.add(diff1);
+        diffGroupRd.add(diff2);
+        diffGroupRd.add(diff3);
+
+
+        diffOption.add(diff1);
+        diffOption.add(diff2);
+        diffOption.add(diff3);
+
+        JPanel qOption = new JPanel();
+
+        TitledBorder b1 = BorderFactory.createTitledBorder("물음표 표식 사용");
+        b1.setTitleJustification(TitledBorder.LEFT);
+
+        qOption.setBorder(b1);
+
+
+        qOption.setLayout(new GridLayout(1,1,10,10));
+
+        JCheckBox chk = new JCheckBox("선택 시 물음표 표식 사용 가능",false);
+
+        qOption.add(chk);
+
+        option.add(diffOption);
+        option.add(qOption);
+
+        //--------BUTTONS----------//
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new GridLayout(1,2,10,0));
+
+        JButton apply = new JButton("적용");
+        JButton cancel = new JButton("취소");
+
+
+        apply.addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+        });
+        cancel.addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+        });
+
+
+        buttons.add(apply);
+        buttons.add(cancel);
+
+        //--------DIALOG-------------//
+
+        JPanel c = new JPanel();
+        c.setLayout(new BorderLayout(20,20));
+        c.add(option, BorderLayout.CENTER);
+        c.add(buttons, BorderLayout.SOUTH);
+
+        c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        dialog.setTitle("옵션창");
+        dialog.add(c);
+        dialog.pack();
+        dialog.setLocationRelativeTo(gui);
+        dialog.setVisible(true);
+    }
     
     //------------------------------------------------------------------------------//
-	
-        
+
+
     // Shows the "solution" of the game.
     private void showAll()
     {
@@ -639,7 +736,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
  
     //Check the game to see if its finished or not
     private void checkGame()
-    {		
+    {
         if(isFinished()) 
         {            
             gameWon();
@@ -647,7 +744,10 @@ public class Game implements MouseListener, ActionListener, WindowListener
     }
    
     //----------------------------------------------------------------------/
-       
+
+    /*
+     * If a player clicks on a confirmed number cell, it checks the cells around it.
+     */
     public String checkNeighbours(int xCo, int yCo) {
 
         int neighbours;
@@ -707,7 +807,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
         // Columns
         for(int x = board.makeValidCoordinateX(xCo - 1) ; x <= board.makeValidCoordinateX(xCo + 1) ; x++) 
-        {			
+        {
             // Rows
             for(int y = board.makeValidCoordinateY(yCo - 1) ; y <= board.makeValidCoordinateY(yCo + 1) ; y++) 
             {
@@ -853,10 +953,16 @@ public class Game implements MouseListener, ActionListener, WindowListener
         }
         
         //Statistics
-        else
+        else if (menuItem.getName().equals("Statistics"))
         {
             showScore();
-        }        
+        }
+
+        else if (menuItem.getName().equals("Option"))
+        {
+            System.out.println("heol");
+            showOption();
+        }
     }
     
     
@@ -952,7 +1058,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
                 else if (board.getCells()[x][y].getContent().equals("")) 
                 {
                     board.getCells()[x][y].setContent("F");
-                    button.setBackground(Color.blue);	
+                    button.setBackground(Color.blue);
 
                     button.setIcon(gui.getIconFlag());
                     gui.decMines();

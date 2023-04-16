@@ -45,6 +45,7 @@ public class UI extends JFrame
     private JMenuBar menuBar;
     private JMenu gameMenu;
     private JMenuItem newGame;
+    private JMenuItem option;
     private JMenuItem statistics;
     private JMenuItem exit;
 
@@ -159,14 +160,17 @@ public class UI extends JFrame
         gameMenu = new JMenu("게임");
          
         newGame = new JMenuItem("   새로운 게임");
+        option = new JMenuItem("   옵션");
         statistics = new JMenuItem("   정보창");
         exit = new JMenuItem("   나가기");
 
         newGame.setName("New Game");
+        option.setName("Option");
         statistics.setName("Statistics");
         exit.setName("Exit");
 
         gameMenu.add(newGame);
+        gameMenu.add(option);
         gameMenu.add(statistics);
         gameMenu.add(exit);
         
@@ -328,10 +332,12 @@ public class UI extends JFrame
         
         // Set listeners for menu items in menu bar
        newGame.addActionListener(game);
+       option.addActionListener(game);
        statistics.addActionListener(game);
        exit.addActionListener(game);
 
        newGame.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+       option.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
        exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
        statistics.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));       
     }
