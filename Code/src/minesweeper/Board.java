@@ -356,9 +356,8 @@ public class Board
         }
         
     }
-    
-    
-    
+
+
     //--------------------------------------------//
     //---------GETTERS AND SETTERS-------------//
     public void setNumberOfMines(int numberOfMines)

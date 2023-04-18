@@ -12,10 +12,10 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
-import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
@@ -72,7 +72,8 @@ public class Game implements MouseListener, ActionListener, WindowListener
         
         gui.setIcons();        
         gui.hideAll();
-        
+
+        loadOption();
         resumeGame();
     }
 
@@ -194,6 +195,45 @@ public class Game implements MouseListener, ActionListener, WindowListener
         gui.resetTimer();        
         gui.initGame();
         gui.setMines(board.getNumberOfMines());
+    }
+
+    //------------------------------------------------------------------------------//
+
+    public void loadOption()
+    {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        int diffOption = 1;
+        boolean qMark=false;
+
+        try {
+            String dbURL = Game.dbPath;
+
+            connection = DriverManager.getConnection(dbURL);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM OPTION");
+
+            resultSet.next();
+            diffOption=resultSet.getInt("diffOption");
+            qMark=resultSet.getBoolean("qMark");
+
+            // cleanup resources, once after processing
+            resultSet.close();
+            statement.close();
+
+            // and then finally close connection
+            connection.close();
+
+            System.out.println(diffOption);
+            System.out.println(qMark);
+
+        }
+        catch(SQLException sqlex)
+        {
+            sqlex.printStackTrace();
+        }
     }
         
     //------------------------------------------------------------------------------//    
