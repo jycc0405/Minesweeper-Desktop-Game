@@ -29,13 +29,15 @@ public class Game implements MouseListener, ActionListener, WindowListener
 {
     public static String dbPath;
     // "playing" indicates whether a game is running (true) or not (false).
-    private boolean playing; 
+    private boolean playing;
 
     private Board board;
 
     private UI gui;
     
     private Score score;
+
+    private Option Option=new Option();
         
     //------------------------------------------------------------------//        
 
@@ -60,10 +62,12 @@ public class Game implements MouseListener, ActionListener, WindowListener
         score.populate();
         
         UI.setLook("Nimbus");
-                        
-        createBoard();
+
+        Option.loadOption();
+
+        createBoard(Option.getDiffOption());
         
-        this.gui = new UI(board.getRows(), board.getCols(), board.getNumberOfMines());        
+        this.gui = new UI(board.getRows(), board.getCols(), board.getNumberOfMines(),Option.getDiffOption());
         this.gui.setButtonListeners(this);
                         
         this.playing = false;
@@ -73,7 +77,6 @@ public class Game implements MouseListener, ActionListener, WindowListener
         gui.setIcons();        
         gui.hideAll();
 
-        loadOption();
         resumeGame();
     }
 
@@ -159,13 +162,19 @@ public class Game implements MouseListener, ActionListener, WindowListener
     
     //------------------------------------------------------------//
         
-    public void createBoard()
+    public void createBoard(int diffOption)
     {
-        // Create a new board        
-        int mines = 10;
+        int[][] sizeOfDiff={{9,9,10},{16,16,40},{30,16,99}};
 
-        int r = 9;
-        int c = 9;
+        int[] size=sizeOfDiff[diffOption];
+        System.out.println(size[0]);
+        System.out.println(size[1]);
+        System.out.println(size[2]);
+        // Create a new board        
+        int mines = size[2];
+
+        int r = size[0];
+        int c = size[1];
                 
         this.board = new Board(mines, r, c);        
     }
@@ -174,9 +183,11 @@ public class Game implements MouseListener, ActionListener, WindowListener
     //---------------------------------------------------------------//
     public void newGame()
     {                
-        this.playing = false;        
+        this.playing = false;
+
+        Option.loadOption();
                                 
-        createBoard();
+        createBoard(Option.getDiffOption());
         
         gui.interruptTimer();
         gui.resetTimer();        
@@ -199,42 +210,6 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
     //------------------------------------------------------------------------------//
 
-    public void loadOption()
-    {
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        int diffOption = 1;
-        boolean qMark=false;
-
-        try {
-            String dbURL = Game.dbPath;
-
-            connection = DriverManager.getConnection(dbURL);
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM OPTION");
-
-            resultSet.next();
-            diffOption=resultSet.getInt("diffOption");
-            qMark=resultSet.getBoolean("qMark");
-
-            // cleanup resources, once after processing
-            resultSet.close();
-            statement.close();
-
-            // and then finally close connection
-            connection.close();
-
-            System.out.println(diffOption);
-            System.out.println(qMark);
-
-        }
-        catch(SQLException sqlex)
-        {
-            sqlex.printStackTrace();
-        }
-    }
         
     //------------------------------------------------------------------------------//    
     private void endGame()
@@ -677,9 +652,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         Cell cells[][] = board.getCells();
         JButton buttons[][] = gui.getButtons();
 
-        for (int x=0; x<board.getCols(); x++ ) 
+        for (int x=0; x<board.getRows(); x++ )
         {
-            for (int y=0; y<board.getRows(); y++ ) 
+            for (int y=0; y<board.getCols(); y++ )
             {
                 cellSolution = cells[x][y].getContent();
 
@@ -750,9 +725,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
         Cell cells[][] = board.getCells();
         
-        for( int x = 0 ; x < board.getCols() ; x++ ) 
+        for( int x = 0 ; x < board.getRows() ; x++ )
         {
-            for( int y = 0 ; y < board.getRows() ; y++ ) 
+            for( int y = 0 ; y < board.getCols() ; y++ )
             {
                 // If a game is solved, the content of each Cell should match the value of its surrounding mines
                 cellSolution = Integer.toString(cells[x][y].getSurroundingMines());
@@ -1070,7 +1045,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
                             button.setBackground(Color.lightGray);
                         }
                     }
-                }else if(!board.getCells()[x][y].getContent().equals(""))
+                }else if(!board.getCells()[x][y].getContent().equals("")&&!board.getCells()[x][y].getContent().equals("F"))
                 {
                     if (board.getSurroundingFlagNumber(x,y)>=Integer.parseInt(board.getCells()[x][y].getContent()))
                     {

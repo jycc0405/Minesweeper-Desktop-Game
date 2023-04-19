@@ -30,6 +30,7 @@ public class UI extends JFrame
     
     private int FRAME_WIDTH = 520;
     private int FRAME_HEIGHT = 550;
+    private int[][] FRAME_SIZE ={{520,550},{925,925},{1200,900}};
     private int FRAME_LOC_X = 430;
     private int FRAME_LOC_Y = 50;
 
@@ -52,7 +53,7 @@ public class UI extends JFrame
     
     
     //---------------------------------------------------------------//
-    public UI(int r, int c, int m)
+    public UI(int r, int c, int m,int diff)
     {                
         this.rows = r;
         this.cols = c;
@@ -60,7 +61,7 @@ public class UI extends JFrame
         buttons = new JButton [rows][cols];
 
         // Set frame
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        setSize(FRAME_SIZE[diff][0],FRAME_SIZE[diff][1]);
         setTitle(FRAME_TITLE);
         setLocation(FRAME_LOC_X, FRAME_LOC_Y);
                
@@ -75,9 +76,9 @@ public class UI extends JFrame
         gameBoard = new JPanel();
         gameBoard.setLayout(new GridLayout(rows,cols,0,0));
         
-        for( int y=0 ; y<rows ; y++ ) 
+        for( int x=0 ; x<rows ; x++ )
         {
-            for( int x=0 ; x<cols ; x++ ) 
+            for( int y=0 ; y<cols ; y++ )
             {
                 // Set button text.
                 buttons[x][y] = new JButton("");
@@ -89,6 +90,7 @@ public class UI extends JFrame
                 buttons[x][y].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
 
                 // Add this button to the gameboard.
+                gameBoard.add(buttons[x][y]);
                 gameBoard.add(buttons[x][y]);
             }
         }
@@ -278,9 +280,9 @@ public class UI extends JFrame
     //Makes buttons clickable
     public void enableAll()
     {
-        for( int x=0 ; x<cols ; x++ ) 
+        for( int x=0 ; x<rows ; x++ )
         {
-            for( int y=0 ; y<rows ; y++ ) 
+            for( int y=0 ; y<cols ; y++ )
             {
                 buttons[x][y].setEnabled(true);
             }
@@ -290,9 +292,9 @@ public class UI extends JFrame
     //Makes buttons non-clickable
     public void disableAll()
     {
-        for( int x=0 ; x<cols ; x++ ) 
+        for( int x=0 ; x<rows ; x++ )
         {
-            for( int y=0 ; y<rows ; y++ ) 
+            for( int y=0 ; y<cols ; y++ )
             {
                 buttons[x][y].setEnabled(false);
             }
@@ -303,9 +305,9 @@ public class UI extends JFrame
     //Resets the content of all buttons
     public void hideAll()
     {
-        for( int x=0 ; x<cols ; x++ ) 
+        for( int x=0 ; x<rows ; x++ )
         {
-            for( int y=0 ; y<rows ; y++ ) 
+            for( int y=0 ; y<cols ; y++ )
             {
                 buttons[x][y].setText("");                
                 buttons[x][y].setBackground(new Color(0,103,200));
@@ -322,9 +324,9 @@ public class UI extends JFrame
         addWindowListener(game);
     
         // Set listeners for all buttons in the grid in gameBoard
-        for( int x=0 ; x<cols ; x++ ) 
+        for( int x=0 ; x<rows ; x++ )
         {
-            for( int y=0 ; y<rows ; y++ ) 
+            for( int y=0 ; y<cols ; y++ )
             {
                 buttons[x][y].addMouseListener(game);
             }

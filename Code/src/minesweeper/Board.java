@@ -44,9 +44,9 @@ public class Board
     //STEP 1//
     public void createEmptyCells()
     {
-        for (int x = 0; x < cols; x++)
+        for (int x = 0; x < rows; x++)
         {
-            for (int y = 0; y < rows; y++)
+            for (int y = 0; y < cols; y++)
             {
                 cells[x][y] = new Cell();
             }
@@ -64,10 +64,10 @@ public class Board
         while (currentMines != numberOfMines)
         {
             // Generate a random x coordinate (between 0 and cols)
-            x = (int)Math.floor(Math.random() * cols);
+            x = (int)Math.floor(Math.random() * rows);
 
             // Generate a random y coordinate (between 0 and rows)
-            y = (int)Math.floor(Math.random() * rows);
+            y = (int)Math.floor(Math.random() * cols);
 
             hasMine = cells[x][y].getMine();
 
@@ -84,9 +84,9 @@ public class Board
     //STEP 3//
     public void setSurroundingMinesNumber()
     {	
-        for(int x = 0 ; x < cols ; x++) 
+        for(int x = 0 ; x < rows ; x++)
         {
-            for(int y = 0 ; y < rows ; y++) 
+            for(int y = 0 ; y < cols ; y++)
             {
                 cells[x][y].setSurroundingMines(calculateNeighbours(x,y));                        
             }
@@ -150,8 +150,8 @@ public class Board
     {
         if (i < 0)
             i = 0;
-        else if (i > cols-1)
-            i = cols-1;
+        else if (i > rows-1)
+            i = rows-1;
 
         return i;
     }	
@@ -161,8 +161,8 @@ public class Board
     {
         if (i < 0)
             i = 0;
-        else if (i > rows-1)
-            i = rows-1;
+        else if (i > cols-1)
+            i = cols-1;
 
         return i;
     }	
@@ -226,9 +226,9 @@ public class Board
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM CELL");
 
-            for(int x = 0 ; x < cols ; x++) 
+            for(int x = 0 ; x < rows ; x++)
             {
-                for(int y = 0 ; y < rows ; y++) 
+                for(int y = 0 ; y < cols ; y++)
                 {                                        
                     resultSet.next();
                     
@@ -320,9 +320,9 @@ public class Board
             String template = "INSERT INTO CELL (CONTENT, MINE, SURROUNDING_MINES) values (?,?,?)";
             statement = connection.prepareStatement(template);
 
-            for(int x = 0 ; x < cols ; x++) 
+            for(int x = 0 ; x < rows ; x++)
             {
-                for(int y = 0 ; y < rows ; y++) 
+                for(int y = 0 ; y < cols ; y++)
                 {
                     statement.setString(1, cells[x][y].getContent());
                     statement.setBoolean(2, cells[x][y].getMine());
@@ -388,9 +388,9 @@ public class Board
 
     public void resetBoard()
     {
-        for(int x = 0 ; x < cols ; x++) 
+        for(int x = 0 ; x < rows ; x++)
         {
-            for(int y = 0 ; y < rows ; y++) 
+            for(int y = 0 ; y < cols ; y++)
             {
                 cells[x][y].setContent("");                        
             }
