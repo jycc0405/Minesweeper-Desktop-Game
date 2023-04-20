@@ -38,6 +38,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
     private Score score;
 
     private Option Option=new Option();
+
         
     //------------------------------------------------------------------//        
 
@@ -167,14 +168,11 @@ public class Game implements MouseListener, ActionListener, WindowListener
         int[][] sizeOfDiff={{9,9,10},{16,16,40},{30,16,99}};
 
         int[] size=sizeOfDiff[diffOption];
-        System.out.println(size[0]);
-        System.out.println(size[1]);
-        System.out.println(size[2]);
         // Create a new board        
         int mines = size[2];
 
-        int r = size[0];
-        int c = size[1];
+        int r = size[1];
+        int c = size[0];
                 
         this.board = new Board(mines, r, c);        
     }
@@ -188,7 +186,18 @@ public class Game implements MouseListener, ActionListener, WindowListener
         Option.loadOption();
                                 
         createBoard(Option.getDiffOption());
-        
+
+        this.gui.dispose();
+        this.gui = new UI(board.getRows(), board.getCols(), board.getNumberOfMines(),Option.getDiffOption());
+        this.gui.setButtonListeners(this);
+
+        this.playing = false;
+
+        gui.setVisible(true);
+
+        gui.setIcons();
+        gui.hideAll();
+
         gui.interruptTimer();
         gui.resetTimer();        
         gui.initGame();
@@ -550,6 +559,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
     public void showOption()
     {
+        Option.loadOption();
         //----------------------------------------------------------------//
 
         JDialog dialog = new JDialog(gui, Dialog.ModalityType.DOCUMENT_MODAL);
@@ -572,22 +582,23 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
         diffOption.setLayout(new GridLayout(1,3,10,10));
 
-        JRadioButton diff1= new JRadioButton("쉬움");
-        JRadioButton diff2= new JRadioButton("보통");
-        JRadioButton diff3= new JRadioButton("어려움");
+        JRadioButton diff0= new JRadioButton("쉬움");
+        JRadioButton diff1= new JRadioButton("보통");
+        JRadioButton diff2= new JRadioButton("어려움");
 
-        diff1.setSelected(true);
+        if (Option.getDiffOption()==0){diff0.setSelected(true);}
+        else if (Option.getDiffOption()==1) {diff1.setSelected(true);}
+        else if (Option.getDiffOption()==2) {diff2.setSelected(true);}
 
         ButtonGroup diffGroupRd = new ButtonGroup();
 
+        diffGroupRd.add(diff0);
         diffGroupRd.add(diff1);
         diffGroupRd.add(diff2);
-        diffGroupRd.add(diff3);
 
-
+        diffOption.add(diff0);
         diffOption.add(diff1);
         diffOption.add(diff2);
-        diffOption.add(diff3);
 
         JPanel qOption = new JPanel();
 
@@ -599,9 +610,10 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
         qOption.setLayout(new GridLayout(1,1,10,10));
 
-        JCheckBox chk = new JCheckBox("선택 시 물음표 표식 사용 가능",false);
+        JCheckBox qchk = new JCheckBox("선택 시 물음표 표식 사용 가능",false);
+        qchk.setSelected(Option.getqMark());
 
-        qOption.add(chk);
+        qOption.add(qchk);
 
         option.add(diffOption);
         option.add(qOption);
@@ -615,6 +627,48 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
 
         apply.addActionListener((ActionEvent e) -> {
+            int diffSelected=0;
+
+            Option.saveqMarkOption(qchk.isSelected());
+            if (diff0.isSelected()){diffSelected=0;}
+            else if (diff1.isSelected()) {diffSelected=1;}
+            else if (diff2.isSelected()) {diffSelected=2;}
+
+            if (Option.getDiffOption()!=diffSelected)
+            {
+                if (playing)
+                {
+                    ImageIcon question = new ImageIcon(getClass().getResource("/resources/question.png"));
+
+                    Object[] options = {"네","취소"};
+
+                    int quit = JOptionPane.showOptionDialog(null, "현재 게임을 포기하시겠습니까?",
+                            "New Game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, question, options, options[1]);
+
+                    switch(quit)
+                    {
+                        //save
+                        case JOptionPane.YES_OPTION:
+                            Option.saveDiffOption(diffSelected);
+
+                            score.incGamesPlayed();
+                            score.save();
+                            newGame();
+                            //Game game = new Game();
+                            break;
+
+                        case JOptionPane.CANCEL_OPTION: break;
+                    }
+                } else {
+                    Option.saveDiffOption(diffSelected);
+                    newGame();
+                    //Game game = new Game();
+
+                }
+
+
+            }
+
             dialog.dispose();
         });
         cancel.addActionListener((ActionEvent e) -> {
@@ -975,7 +1029,6 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
         else if (menuItem.getName().equals("Option"))
         {
-            System.out.println("heol");
             showOption();
         }
     }

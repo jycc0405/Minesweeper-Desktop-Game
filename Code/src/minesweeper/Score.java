@@ -237,7 +237,7 @@ public class Score
             statement.executeUpdate();
             
             //--------------INSERT DATA INTO SCORE TABLE-----------//            
-            template = "INSERT INTO SCORE (GAMES_PLAYED,GAMES_WON, LWSTREAK, LLSTREAK, CSTREAK, CWSTREAK, CLSTREAK) values (?,?,?,?,?,?,?)";
+            template = "INSERT INTO SCORE (GAMES_PLAYED, GAMES_WON, LWSTREAK, LLSTREAK, CSTREAK, CWSTREAK, CLSTREAK) values (?,?,?,?,?,?,?)";
             statement = connection.prepareStatement(template);
             
             statement.setInt(1, gamesPlayed);

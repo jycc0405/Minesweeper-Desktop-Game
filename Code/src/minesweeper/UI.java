@@ -27,10 +27,7 @@ public class UI extends JFrame
     
     // Frame settings
     private final String FRAME_TITLE = "Minesweeper ~ Developed by Haris Muneer";
-    
-    private int FRAME_WIDTH = 520;
-    private int FRAME_HEIGHT = 550;
-    private int[][] FRAME_SIZE ={{520,550},{925,925},{1200,900}};
+    private int[][] FRAME_SIZE ={{520,550},{700,730},{950,730}};
     private int FRAME_LOC_X = 430;
     private int FRAME_LOC_Y = 50;
 
@@ -90,7 +87,6 @@ public class UI extends JFrame
                 buttons[x][y].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
 
                 // Add this button to the gameboard.
-                gameBoard.add(buttons[x][y]);
                 gameBoard.add(buttons[x][y]);
             }
         }
