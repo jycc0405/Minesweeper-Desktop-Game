@@ -37,7 +37,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
     
     private Score score;
 
-    private Option Option=new Option();
+    private Option Option;
 
         
     //------------------------------------------------------------------//        
@@ -63,8 +63,8 @@ public class Game implements MouseListener, ActionListener, WindowListener
         score.populate();
         
         UI.setLook("Nimbus");
-
-        Option.loadOption();
+        Option=new Option();
+        //Option.loadOption();
 
         createBoard(Option.getDiffOption());
         
@@ -183,7 +183,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
     {                
         this.playing = false;
 
-        Option.loadOption();
+        //Option.loadOption();
                                 
         createBoard(Option.getDiffOption());
 
@@ -559,7 +559,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
     public void showOption()
     {
-        Option.loadOption();
+        //Option.loadOption();
         //----------------------------------------------------------------//
 
         JDialog dialog = new JDialog(gui, Dialog.ModalityType.DOCUMENT_MODAL);
@@ -1065,7 +1065,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
             // Left Click
             if (SwingUtilities.isLeftMouseButton(e)) 
             {
-                if (!board.getCells()[x][y].getContent().equals("F")&&board.getCells()[x][y].getContent().equals(""))
+                if (board.getCells()[x][y].getContent().equals(""))
                 {
                     button.setIcon(null);
 
@@ -1098,7 +1098,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
                             button.setBackground(Color.lightGray);
                         }
                     }
-                }else if(!board.getCells()[x][y].getContent().equals("")&&!board.getCells()[x][y].getContent().equals("F"))
+                }else if(!button.getText().equals(""))
                 {
                     if (board.getSurroundingFlagNumber(x,y)>=Integer.parseInt(board.getCells()[x][y].getContent()))
                     {
@@ -1112,24 +1112,32 @@ public class Game implements MouseListener, ActionListener, WindowListener
             // Right Click
             else if (SwingUtilities.isRightMouseButton(e)) 
             {
-                if(board.getCells()[x][y].getContent().equals("F")) 
+                if(board.getCells()[x][y].getContent().equals(""))
                 {   
-                    board.getCells()[x][y].setContent("");
-                    button.setText("");
-                    button.setBackground(new Color(0,110,140));
-
-                    //simple blue
-
-                    button.setIcon(gui.getIconTile());
-                    gui.incMines();
-                }
-                else if (board.getCells()[x][y].getContent().equals("")) 
-                {
                     board.getCells()[x][y].setContent("F");
                     button.setBackground(Color.blue);
 
                     button.setIcon(gui.getIconFlag());
                     gui.decMines();
+                }
+                else if (board.getCells()[x][y].getContent().equals("F")&&Option.getqMark())
+                {
+                    board.getCells()[x][y].setContent("Q");
+                    button.setBackground(new Color(0,110,140));
+
+                    //simple blue
+
+                    button.setIcon(gui.getIconqMark());
+                    gui.incMines();
+                }
+                else if (board.getCells()[x][y].getContent().equals("F")||board.getCells()[x][y].getContent().equals("Q"))
+                {
+                    if (board.getCells()[x][y].getContent().equals("F")&&!Option.getqMark()){gui.incMines();}
+                    board.getCells()[x][y].setContent("");
+                    button.setText("");
+                    button.setBackground(Color.blue);
+
+                    button.setIcon(gui.getIconTile());
                 }
             }
 

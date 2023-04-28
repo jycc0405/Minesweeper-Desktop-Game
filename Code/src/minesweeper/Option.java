@@ -8,6 +8,8 @@ public class Option {
     private int diffOption;
     private  boolean qMark;
 
+    public Option(){loadOption();}
+
     public void loadOption()
     {
         Connection connection = null;
@@ -42,6 +44,7 @@ public class Option {
 
     public void saveDiffOption(int diffOption)
     {
+        this.diffOption=diffOption;
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -72,6 +75,7 @@ public class Option {
 
     public void saveqMarkOption(boolean qMark)
     {
+        this.qMark=qMark;
         Connection connection = null;
         PreparedStatement statement = null;
 

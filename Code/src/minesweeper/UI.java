@@ -36,6 +36,7 @@ public class UI extends JFrame
     private Icon mine;
     private Icon flag;
     private Icon tile;
+    private Icon qMark;
     
     
     // Menu Bar and Items
@@ -423,7 +424,10 @@ public class UI extends JFrame
         flag =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);        
         
         d = new ImageIcon(getClass().getResource("/resources/tile.png"));                
-        tile =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);        
+        tile =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
+
+        d = new ImageIcon(getClass().getResource("/resources/qmark.png"));
+        qMark =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
                 
         //-------------------------------------------------------//
         
@@ -447,7 +451,12 @@ public class UI extends JFrame
     public Icon getIconTile()
     {
         return tile;       
-    }        
+    }
+
+    public Icon getIconqMark()
+    {
+        return qMark;
+    }
     
     
     //---------------------------------------------------------------------//
