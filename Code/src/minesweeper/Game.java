@@ -146,6 +146,11 @@ public class Game implements MouseListener, ActionListener, WindowListener
                     buttons[x][y].setIcon(gui.getIconFlag());
                     buttons[x][y].setBackground(Color.blue);
                 }
+                else if (cells[x][y].getContent().equals("Q"))
+                {
+                    buttons[x][y].setIcon(gui.getIconqMark());
+                    buttons[x][y].setBackground(new Color(0,110,140));
+                }
                 else if (cells[x][y].getContent().equals("0"))
                 {
                     buttons[x][y].setBackground(Color.lightGray);
