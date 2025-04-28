@@ -24,6 +24,7 @@ There is a separate "Executable Game" folder which has the directly executable g
   - 코드 구조 개선
   - 한글화
   - 난이도, 주변 지뢰 탐색 등 다양한 기능, 옵션 추가
+  자세한 변경 사항은 [링크 참조](https://www.notion.so/1b91f3b75d4a809f8bbbd97a7b947553) 
 
 ## How to Run
 1- Install these:
