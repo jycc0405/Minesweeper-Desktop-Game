@@ -18,6 +18,13 @@ The main design focus is the MVC architecture and the decoupled entities. Attent
 
 There is a separate "Executable Game" folder which has the directly executable game file named *Minesweeper.jar* :)
 
+## 개요
+- 본 리포지토리는 원본 프로젝트를 기반으로 리팩토링한 버전입니다.
+- 주요 변경 사항:
+  - 코드 구조 개선
+  - 한글화
+  - 난이도, 주변 지뢰 탐색 등 다양한 기능, 옵션 추가
+
 ## How to Run
 1- Install these:
  * [Java SE Development Kit 8 (JDK 8)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -101,6 +108,8 @@ Hey there, I'm <a href="https://www.linkedin.com/in/harismuneer/">Haris Muneer</
   <a href="https://www.youtube.com/@haris_muneer?sub_confirmation=1"><img title="Subscribe on YouTube" src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/></a> 
   <a href="mailto:haris.muneer5@gmail.com"><img title="Email" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/></a>
 </p>
+
+
 
 
 
